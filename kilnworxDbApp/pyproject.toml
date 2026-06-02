@@ -22,6 +22,9 @@ test_sources = [
 ]
 
 requires = [
+    "pandas",
+    "datetime",
+    "openpyxl",
 ]
 test_requires = [
     "pytest",

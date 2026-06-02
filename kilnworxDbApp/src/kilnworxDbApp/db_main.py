@@ -3,10 +3,15 @@ import pandas as pd
 
 
 def db_main(name_in):
-    msg_out = ""
+    msgOut = []
+    #     ("Today's date: " + today.strftime("%Y-%m-%d"), ""),
+    #     ("r2c1", 'r2c2'),
+    #     ("r3c1", 'r3c2'),
+    # ]
 
     today = datetime.datetime.now()
     print("Today's date: " + today.strftime("%Y-%m-%d"))
+    msgOut.append(("Today's date: " + today.strftime("%Y-%m-%d"), ""))
 
     # Read spreadsheet as database
     xlFileName = "/media/Files/RockShare/Climbing/KilnworxDBApp2026/db1.xlsx"
@@ -27,6 +32,7 @@ def db_main(name_in):
     # name_in = input("Enter your name: ")  #TODO: replace later with app input
     name_in = name_in.lower()
     print("Hello, " + name_in + "!")
+    msgOut.append(("Hello, " + name_in + "!", ""))
     myDb = db1[db1["Name"] == name_in]
 
     if myDb.shape[0] > 1:
@@ -36,6 +42,9 @@ def db_main(name_in):
 
     print(myDb.T)
     print("\n")
+    # [(myDb.columns.values[iter], myDb.iloc[0].values[iter]),
+    # TODO: not working yet
+    msgOut.extend(list((myDb.columns.values,myDb.iloc[0].values)))
     # TODO: check unique entry in myDb
 
     # Update database with current visit
@@ -60,4 +69,4 @@ def db_main(name_in):
     db1.to_excel(xlFileName)
     print("Sign-in successful!")
 
-    return msg_out
+    return msgOut
