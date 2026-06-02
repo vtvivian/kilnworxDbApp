@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def db_main(name_in):
-    msgOut = []
+    msgOut = [] #Toga ListSource = list of tuples
     #     ("Today's date: " + today.strftime("%Y-%m-%d"), ""),
     #     ("r2c1", 'r2c2'),
     #     ("r3c1", 'r3c2'),
@@ -29,23 +29,20 @@ def db_main(name_in):
     # TODO: check for bad entries
 
     # Identify database entry from name
-    # name_in = input("Enter your name: ")  #TODO: replace later with app input
     name_in = name_in.lower()
     print("Hello, " + name_in + "!")
-    msgOut.append(("Hello, " + name_in + "!", ""))
     myDb = db1[db1["Name"] == name_in]
 
     if myDb.shape[0] > 1:
-        raise ValueError("Error! More than one person with this name.")
+        msgOut.append(("Error! More than one person with this name.", ""))
+        return msgOut
     elif myDb.shape[0] < 1:
-        raise ValueError("Error! No person with this name.")
+        msgOut.append(("Error! No person with this name.", ""))
+        return msgOut
 
     print(myDb.T)
     print("\n")
-    # [(myDb.columns.values[iter], myDb.iloc[0].values[iter]),
-    # TODO: not working yet
-    msgOut.extend(list((myDb.columns.values,myDb.iloc[0].values)))
-    # TODO: check unique entry in myDb
+    msgOut.extend(myDb.T.itertuples(index=True, name=None))
 
     # Update database with current visit
     myDb["Date last visit"] = today.date()
@@ -55,18 +52,20 @@ def db_main(name_in):
     if pd.notna(myDb["Pass expiry"].values):
         if myDb["Pass expiry"].values < today:
             print("Pass expired!")
+            msgOut.append(("Pass expired!", ""))
             # TODO: function renew pass
         else:
             print("Pass active")
-            print("Pass expiry date: " + pd.to_datetime(myDb["Pass expiry"].values[0]).strftime("%Y-%m-%d"))
-    else:
-        print("Membership type: " + myDb["Member type"].iloc[0])
+            msgOut.append(("Pass active", ""))
+            # print("Pass expiry date: " + pd.to_datetime(myDb["Pass expiry"].values[0]).strftime("%Y-%m-%d"))
+            # msgOut.append(("Pass expiry date: " + pd.to_datetime(myDb["Pass expiry"].values[0]).strftime("%Y-%m-%d"), ""))
 
     # Update main database
     db1.loc[myDb.index] = myDb
 
     # Export to spreadsheet
     db1.to_excel(xlFileName)
-    print("Sign-in successful!")
+    print("Check-in successful!")
+    msgOut.append(("Check-in successful!", ""))
 
     return msgOut

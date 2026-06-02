@@ -14,7 +14,7 @@ class KilnworxMembersDatabase(toga.App):
         We then create a main window (with a name matching the app), and
         show the main window.
         """
-        main_box = toga.Box(direction=COLUMN)
+        main_box = toga.Box(direction=COLUMN,flex=1)
 
         name_label = toga.Label(
             "Your name: ",
@@ -39,15 +39,15 @@ class KilnworxMembersDatabase(toga.App):
         )
         msg_box.add(self.msg_label)
 
-        self.msg_table = toga.Table(columns=["Column1", "Column2"], data=[("", "")], show_headings=False)
-        self.msg_table
+        self.msg_table = toga.Table(columns=["Column1", "Column2"], data=[("", "")], show_headings=False, flex=1)
+
 
         main_box.add(name_box)
         main_box.add(button)
         main_box.add(msg_box)
         main_box.add(self.msg_table)
 
-        self.main_window = toga.MainWindow(title=self.formal_name)
+        self.main_window = toga.MainWindow(title=self.formal_name,size=(800, 600))
         self.main_window.content = main_box
         self.main_window.show()
 
@@ -63,8 +63,7 @@ class KilnworxMembersDatabase(toga.App):
         #     ("r2c1", 'r2c2'),
         #     ("r3c1", 'r3c2'),
         # ]
-        # TODO: not working yet  - sort out list constructor
-        self.msg_table = toga.Table(columns=["Column1", "Column2"], data=msgOut, show_headings=False)
+        self.msg_table.data = msgOut
         print(msgOut)
 
     def update_db(self,name_in):
