@@ -5,6 +5,7 @@ Kilnworx members check-in system
 import toga
 from toga.style.pack import COLUMN, ROW
 from kilnworxDbApp.db_main import db_main
+from pathlib import Path
 
 class KilnworxMembersDatabase(toga.App):
     def startup(self):
@@ -56,7 +57,10 @@ class KilnworxMembersDatabase(toga.App):
         # print(f"Hello, {nameIn}")
         self.msg_label.text = f"Hello, {name_in}"
 
-        msgOut = self.update_db(name_in)
+        # Excel database file path
+        filepath_db = self.paths.app / "resources" / "db.xlsx"
+
+        msgOut = self.update_db(name_in,filepath_db)
         # Creat printable output
         # msgOut = [
         #     ("r1c1", 'r1c2'),
@@ -66,9 +70,9 @@ class KilnworxMembersDatabase(toga.App):
         self.msg_table.data = msgOut
         print(msgOut)
 
-    def update_db(self,name_in):
+    def update_db(self,name_in,filepath_db):
         # Calling the external function directly
-        msg_out = db_main(name_in)
+        msg_out = db_main(name_in,filepath_db)
         return msg_out
 
 

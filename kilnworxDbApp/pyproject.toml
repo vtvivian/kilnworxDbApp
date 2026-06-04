@@ -11,9 +11,10 @@ author_email = "vtvivian@users.noreply.github.com"
 
 [tool.briefcase.app.kilnworxDbApp]
 formal_name = "Kilnworx Members Database"
-description = "Kilnworx members check-in system"
+description = "Kilnworx members database updater and check-in system"
 long_description = """More details about the app should go here.
 """
+
 sources = [
     "src/kilnworxDbApp",
 ]

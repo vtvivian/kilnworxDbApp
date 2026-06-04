@@ -2,7 +2,7 @@ import datetime
 import pandas as pd
 
 
-def db_main(name_in):
+def db_main(name_in, filepath_db):
     msgOut = [] #Toga ListSource = list of tuples
     #     ("Today's date: " + today.strftime("%Y-%m-%d"), ""),
     #     ("r2c1", 'r2c2'),
@@ -14,8 +14,7 @@ def db_main(name_in):
     msgOut.append(("Today's date: " + today.strftime("%Y-%m-%d"), ""))
 
     # Read spreadsheet as database
-    xlFileName = "/media/Files/RockShare/Climbing/KilnworxDBApp2026/db1.xlsx"
-    db1 = pd.read_excel(xlFileName, index_col=0, header=0)
+    db1 = pd.read_excel(filepath_db, index_col=0, header=0)
 
     # Tidy up data:
     #  - use lowercase for all strings
@@ -64,7 +63,7 @@ def db_main(name_in):
     db1.loc[myDb.index] = myDb
 
     # Export to spreadsheet
-    db1.to_excel(xlFileName)
+    db1.to_excel(filepath_db)
     print("Check-in successful!")
     msgOut.append(("Check-in successful!", ""))
 
